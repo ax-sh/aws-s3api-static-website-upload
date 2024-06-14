@@ -41,7 +41,7 @@ async function createBucket(bucketName: string) {
   console.debug(data);
 }
 
-function printUrl(bucketName:string) {
+function printUrl(bucketName: string) {
   // s3-website dash (-) Region
   const url = `http://${bucketName}.s3-website-${Region}.amazonaws.com`;
 
@@ -72,9 +72,8 @@ async function configureBucketWebsite(bucketName: string) {
 // Retrieve the website configuration.
 async function getBucketWebsite(bucketName: string) {
   try {
-    const { IndexDocument, ...data } = await s3.send(
-      new GetBucketWebsiteCommand({ Bucket: bucketName })
-    );
+    const command = new GetBucketWebsiteCommand({ Bucket: bucketName });
+    const { IndexDocument, ...data } = await s3.send(command);
 
     if (IndexDocument?.Suffix) {
       console.log('Index document suffix:', IndexDocument.Suffix);
@@ -90,9 +89,9 @@ async function getBucketWebsite(bucketName: string) {
 // Delete the website configuration.
 async function deleteBucketWebsite(bucketName: string) {
   try {
-    await s3.send(new DeleteBucketWebsiteCommand({ Bucket: bucketName }));
+    const { ...data } = await s3.send(new DeleteBucketWebsiteCommand({ Bucket: bucketName }));
 
-    console.log('Website configuration deleted successfully.');
+    console.log('Website configuration deleted successfully.', data);
   } catch (err) {
     console.error('Error deleting bucket website configuration:', err);
   }
@@ -117,7 +116,7 @@ async function putBucketPolicy(bucketName: string) {
     Bucket: bucketName,
   });
   const { ...data } = await s3.send(command);
-  console.log('putBucketPolicy', data);
+  console.log('[putBucketPolicy]', data);
 }
 
 // Delete the website configuration.
@@ -130,7 +129,7 @@ async function uploadBucketWebsite(bucketName: string) {
     cmd = await $`aws s3 cp dist s3://${bucketName}/ --recursive`.text();
   }
 
-  console.log('uploadBucketWebsite', cmd);
+  console.log('[uploadBucketWebsite]', cmd);
 }
 
 async function putPublicAccessBlockPublic(bucketName: string) {
@@ -145,9 +144,9 @@ async function putPublicAccessBlockPublic(bucketName: string) {
   };
   try {
     const { $metadata } = await s3.send(new PutPublicAccessBlockCommand(params));
-    console.log('Success', $metadata);
+    console.log('[putPublicAccessBlockPublic] Success', $metadata);
   } catch (err) {
-    console.log('Error', err);
+    console.log('[putPublicAccessBlockPublic] Error', err);
   }
 }
 
@@ -199,9 +198,7 @@ async function uploadFolder(folderPath: string, bucket: string) {
 
 const bucketName = 'bucket-web-2024';
 
-// // console.log(_url);
-// // console.log(url);
-//
+
 // // usage:
 // await createBucket(bucketName);
 // const folderPath = path.join(__dirname,  'dist'); // Replace with your folder path
@@ -212,4 +209,4 @@ const bucketName = 'bucket-web-2024';
 // await putPublicAccessBlockPublic(bucketName)
 // await putBucketPolicy(bucketName);
 // // await deleteBucketWebsite(bucketName);
-printUrl();
+printUrl(bucketName);
