@@ -13,11 +13,15 @@ import { $ } from 'bun';
 import fs from 'node:fs';
 import path from 'node:path';
 
+
+const MOCK_MODE = true;
+
+
 const Region = 'us-east-1';
 
 const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID as string;
 const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY as string;
-const MOCK_MODE = true;
+
 
 const config: S3ClientConfig = {
   region: Region,
@@ -199,14 +203,14 @@ async function uploadFolder(folderPath: string, bucket: string) {
 const bucketName = 'bucket-web-2024';
 
 
-// // usage:
-// await createBucket(bucketName);
-// const folderPath = path.join(__dirname,  'dist'); // Replace with your folder path
-// // await uploadFolder(folderPath, bucketName)
-// await uploadBucketWebsite(bucketName);
-// await configureBucketWebsite(bucketName);
-// // await getBucketWebsite(bucketName);
-// await putPublicAccessBlockPublic(bucketName)
-// await putBucketPolicy(bucketName);
+// usage:
+await createBucket(bucketName);
+const folderPath = path.join(__dirname,  'dist'); // Replace with your folder path
+// await uploadFolder(folderPath, bucketName)
+await uploadBucketWebsite(bucketName);
+await configureBucketWebsite(bucketName);
+// await getBucketWebsite(bucketName);
+await putPublicAccessBlockPublic(bucketName)
+await putBucketPolicy(bucketName);
 // // await deleteBucketWebsite(bucketName);
 printUrl(bucketName);
