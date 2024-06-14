@@ -13,9 +13,9 @@ import { $ } from 'bun';
 import fs from 'node:fs';
 import path from 'node:path';
 
-
+// CONFIG
 const MOCK_MODE = true;
-
+// CONFIG
 
 const Region = 'us-east-1';
 
