@@ -41,11 +41,11 @@ async function createBucket(bucketName: string) {
   console.debug(data);
 }
 
-function printUrl() {
-  // s3-website dash (-) Region ‐
+function printUrl(bucketName:string) {
+  // s3-website dash (-) Region
   const url = `http://${bucketName}.s3-website-${Region}.amazonaws.com`;
 
-  // s3-website dot (.) Region ‐
+  // s3-website dot (.) Region
   const _url = `http://${bucketName}.s3-website.${Region}.amazonaws.com`;
   console.log('Website configuration added successfully.');
   console.log(url);
