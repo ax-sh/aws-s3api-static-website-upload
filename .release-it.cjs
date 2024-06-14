@@ -48,4 +48,4 @@ module.exports = {
       // 'git push origin refs/heads/develop:develop',
     ],
   },
-}
+};
